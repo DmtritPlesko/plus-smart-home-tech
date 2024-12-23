@@ -18,7 +18,6 @@ public class SnapshotProcessor implements Runnable {
     public void run() {
         while (true) {
             try {
-                // Подпись на топик с снимками
                 Consumer<String, SensorsSnapshotAvro> consumer =
                         new KafkaConsumer<>(producerBySnapshot());
 
