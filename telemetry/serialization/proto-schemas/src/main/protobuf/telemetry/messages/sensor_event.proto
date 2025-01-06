@@ -62,10 +62,13 @@ message ScenarioConditionProto {
 }
 
 enum ActionTypeProto {
-  ACTIVATE = 0;
-  DEACTIVATE = 1;
-  INVERSE = 2;
-  SET_VALUE = 3;
+    TURN_ON_THE_HEATING = 0;//подогрев
+    TURN_ON_THE_LIGHT_BULB = 1;//Включение лампочки
+    TURN_ON_THE_AIR_CONDITIONER = 2;//включение кондиционера
+    TURN_ON_THE_AIR_FRESHENER = 3; //Освежитель воздуха
+    TURN_ON_THE_DEHUMIDIFIER = 4;//Осушитель воздуха
+    TURN_ON_THE_HUMIDIFIER = 5;//Увлажнитель воздуха
+    ACTIVATION = 6;
 }
 
 message DeviceActionProto {

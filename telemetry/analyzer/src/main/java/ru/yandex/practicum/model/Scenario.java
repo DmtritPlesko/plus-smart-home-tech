@@ -23,8 +23,15 @@ public class Scenario {
     @Unique
     Long hudId;
 
-    @Unique
+    @ManyToOne
+    @JoinTable(name = "scenario_conditions")
     String name;
+
+    public Scenario(String hubId,String name) {
+        this.hudId =(long) Integer.parseInt(hubId);
+        this.name = name;
+
+    }
 }
 
 

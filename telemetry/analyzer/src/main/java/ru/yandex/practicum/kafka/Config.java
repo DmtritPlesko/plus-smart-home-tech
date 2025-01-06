@@ -1,46 +1,46 @@
 package ru.yandex.practicum.kafka;
 
 import lombok.AccessLevel;
-import org.springframework.beans.factory.annotation.Value;
 import lombok.experimental.FieldDefaults;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import ru.yandex.practicum.kafka.telemetry.event.HubEventAvro;
-import ru.yandex.practicum.kafka.telemetry.event.SensorsSnapshotAvro;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
 
+@Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Config {
 
     @Value("${bootstrap_server}")
-    static String bootstrapServer;
+    String bootstrapServer;
 
     @Value("${key_deserializer_class}")
-    static String keyDeserializerClass;
+    String keyDeserializerClass;
 
     @Value("${hub events_value_deserializer_class}")
-    static String hubEventsValueDeserializerClass;
+    String hubEventsValueDeserializerClass;
 
     @Value("${snapshots_value_deserializer_class}")
-    static String snapshotValueDeserialize;
+    String snapshotValueDeserialize;
 
-    public static Properties producerByHubEvent () {
+    public Properties producerByHubEvent() {
 
         baseProperties().put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, hubEventsValueDeserializerClass);
         return baseProperties();
 
     }
 
-    public static Properties producerBySnapshot () {
+    public Properties producerBySnapshot() {
 
         baseProperties().put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, snapshotValueDeserialize);
         return baseProperties();
 
     }
 
-    private static Properties baseProperties () {
+    private Properties baseProperties() {
         Properties config = new Properties();
 
         config.put(ConsumerConfig.GROUP_ID_CONFIG, "groupAnalyzerHubEventsConsumer");

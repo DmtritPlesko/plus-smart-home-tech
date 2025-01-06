@@ -2,11 +2,10 @@ package ru.yandex.practicum.model;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import ru.yandex.practicum.kafka.telemetry.event.DeviceType;
 
-@Getter
 @Setter
 @Entity
 @Table(name = "sensors")
@@ -18,4 +17,12 @@ public class Sensor {
 
     @Column(name = "hub_id")
     Long hubId;
+
+    private DeviceType type;
+
+    public Sensor(String id, String hubId, DeviceType type) {
+        this.id = (long) Integer.parseInt(id);
+        this.hubId = (long) Integer.parseInt(hubId);
+        this.type = type;
+    }
 }
