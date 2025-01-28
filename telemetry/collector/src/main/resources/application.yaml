@@ -5,3 +5,8 @@ topics:
 server: "localhost:9092"
 key_serialize_class: "org.apache.kafka.common.serialization.StringSerializer"
 value_serialize_class: "ru.practicum.kafka.serialize.AvroSerializer"
+
+eureka:
+      client:
+            serviceUrl:
+                  defaultZone: http://localhost:8761/eureka/
