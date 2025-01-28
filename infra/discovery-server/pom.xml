@@ -7,13 +7,15 @@
         <groupId>ru.yandex.practicum</groupId>
         <artifactId>smart-home-tech</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>infra</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>config-server</module>
-        <module>discovery-server</module>
-    </modules>
+    <artifactId>discovery-server</artifactId>
+
+    <properties>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 </project>
