@@ -38,5 +38,4 @@ public class WarehouseController {
     public AddressDto getAddress() {
         return service.getAddress();
     }
-
 }

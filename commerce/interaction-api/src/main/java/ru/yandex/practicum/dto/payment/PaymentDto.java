@@ -1,4 +1,4 @@
-package ru.yandex.practicum.dto.warehouse;
+package ru.yandex.practicum.dto.payment;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,17 +9,12 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AddressDto {
+public class PaymentDto {
+    String paymentId;
 
-    String addressId;
+    Double totalPayment;
 
-    String country;
+    Double deliveryTotal;
 
-    String city;
-
-    String street;
-
-    String house;
-
-    String flat;
+    Double freeTotal;
 }

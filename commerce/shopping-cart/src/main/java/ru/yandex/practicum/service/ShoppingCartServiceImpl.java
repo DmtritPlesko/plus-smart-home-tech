@@ -8,7 +8,7 @@ import ru.yandex.practicum.contoller.FeignWarehouseClient;
 import ru.yandex.practicum.dto.shopping.BookedProductsDto;
 import ru.yandex.practicum.dto.shopping.ShoppingCartDto;
 import ru.yandex.practicum.exception.shopping.NoProductsInShoppingCartException;
-import ru.yandex.practicum.exception.shopping.NotAuthorizedUserException;
+import ru.yandex.practicum.exception.NotAuthorizedUserException;
 import ru.yandex.practicum.mapper.ShoppingCartMapper;
 import ru.yandex.practicum.model.ShoppingCart;
 import ru.yandex.practicum.repository.CartRepository;

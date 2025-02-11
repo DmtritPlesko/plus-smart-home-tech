@@ -1,4 +1,4 @@
-package ru.yandex.practicum.exception.shopping;
+package ru.yandex.practicum.exception;
 
 import lombok.Getter;
 
