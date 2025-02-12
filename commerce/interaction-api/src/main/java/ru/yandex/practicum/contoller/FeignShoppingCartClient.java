@@ -26,7 +26,7 @@ public interface FeignShoppingCartClient {
 
     @PostMapping(path = "/change-quantity")
     ShoppingCartDto changeQuantity(@RequestParam String username,
-                                   @RequestParam LinkedHashMap<String,Long> changeProductQuantityRequest);
+                                   @RequestParam LinkedHashMap<String, Long> changeProductQuantityRequest);
 
     @PostMapping(path = "/booking")
     BookedProductsDto booking(@RequestParam String username);

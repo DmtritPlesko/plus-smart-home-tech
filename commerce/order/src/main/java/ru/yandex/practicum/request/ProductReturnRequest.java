@@ -13,5 +13,5 @@ import java.util.LinkedHashMap;
 public class ProductReturnRequest {
     String orderId;
 
-    LinkedHashMap<String,Long> products;
+    LinkedHashMap<String, Long> products;
 }

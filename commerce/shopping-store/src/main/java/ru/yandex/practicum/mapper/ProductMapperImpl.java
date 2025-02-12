@@ -1,9 +1,10 @@
 package ru.yandex.practicum.mapper;
 
+import org.springframework.stereotype.Component;
 import ru.yandex.practicum.dto.product.ProductDto;
 import ru.yandex.practicum.model.Product;
 
-
+@Component
 public class ProductMapperImpl implements ProductMapper {
     @Override
     public ProductDto toProductDto(Product product) {

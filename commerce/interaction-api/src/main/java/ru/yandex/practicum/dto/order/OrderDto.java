@@ -21,7 +21,7 @@ public class OrderDto {
     String shoppingCartId;
 
     @NotNull
-    LinkedHashMap<String,Long> products;
+    LinkedHashMap<String, Long> products;
 
     String paymentId;
 

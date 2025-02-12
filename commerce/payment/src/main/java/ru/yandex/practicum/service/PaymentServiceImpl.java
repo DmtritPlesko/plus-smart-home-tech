@@ -1,22 +1,26 @@
 package ru.yandex.practicum.service;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.contoller.FeignDeliveryClient;
 import ru.yandex.practicum.contoller.FeignShoppingStoreClient;
 import ru.yandex.practicum.dto.order.OrderDto;
 import ru.yandex.practicum.dto.payment.PaymentDto;
+import ru.yandex.practicum.enums.PaymentStatus;
 import ru.yandex.practicum.exception.payment.NoPaymentFoundException;
 import ru.yandex.practicum.exception.payment.NotEnoughInfoInOrderToCalculateException;
 import ru.yandex.practicum.repository.PaymentRepository;
 
 @Component
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PaymentServiceImpl implements PaymentService {
 
     final PaymentRepository repository;
     final FeignShoppingStoreClient shoppingStoreClient;
-    final FeignDeliveryClient  deliveryClient;
+    final FeignDeliveryClient deliveryClient;
 
     @Override
     public PaymentDto paymentOrder(OrderDto orderDto) {
@@ -31,17 +35,17 @@ public class PaymentServiceImpl implements PaymentService {
     public Double totalCost(OrderDto orderDto) {
         Double finalCost = productCost(orderDto);
 
-        finalCost += finalCost*0.1;
+        finalCost += finalCost * 0.1;
 
         return deliveryClient.calculateDeliveryCost(orderDto) + finalCost;
     }
 
     @Override
     public void refund(String paymentId) {
-        if(repository.findById(paymentId).isEmpty()) {
+        if (repository.findById(paymentId).isEmpty()) {
             throw new NoPaymentFoundException("Указанная оплата не найдена");
         }
-        repository.updatePaymentState(paymentId,"SUCCESS");
+        repository.updatePaymentState(paymentId, PaymentStatus.SUCCESS.toString());
     }
 
     @Override
@@ -49,7 +53,7 @@ public class PaymentServiceImpl implements PaymentService {
         Double coast = 0.0;
 
         try {
-            for(String id : orderDto.getProducts().keySet()) {
+            for (String id : orderDto.getProducts().keySet()) {
                 coast += shoppingStoreClient.getProdByID(id).getPrice();
             }
         } catch (Exception e) {
@@ -61,10 +65,10 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void failedPayment(String paymentId) {
-        if(repository.findById(paymentId).isEmpty()) {
+        if (repository.findById(paymentId).isEmpty()) {
             throw new NoPaymentFoundException("Указанная оплата не найдена");
         }
 
-        repository.updatePaymentState(paymentId,"FAILED");
+        repository.updatePaymentState(paymentId, PaymentStatus.FAILED.toString());
     }
 }

@@ -1,6 +1,8 @@
 package ru.yandex.practicum.controller;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.dto.order.OrderDto;
 import ru.yandex.practicum.request.CreateNewOrderRequest;
@@ -10,12 +12,13 @@ import ru.yandex.practicum.service.OrderService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/order")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderController {
 
     final OrderService service;
 
     @GetMapping
-    public OrderDto getOrderByUsername (@RequestParam String username) {
+    public OrderDto getOrderByUsername(@RequestParam String username) {
         return service.getOrderByUsername(username);
     }
 
@@ -30,7 +33,7 @@ public class OrderController {
     }
 
     @PostMapping(path = "/payment")
-    public OrderDto paymentOrder (@RequestBody String orderId) {
+    public OrderDto paymentOrder(@RequestBody String orderId) {
         return service.paymentOrder(orderId);
     }
 
@@ -40,12 +43,12 @@ public class OrderController {
     }
 
     @PostMapping(path = "/delivery")
-    public OrderDto deliveryOrder (@RequestBody String orderId) {
+    public OrderDto deliveryOrder(@RequestBody String orderId) {
         return service.deliveryOrder(orderId);
     }
 
     @PostMapping(path = "/delivery/failed")
-    public OrderDto errorDelivery (@RequestBody String orderId) {
+    public OrderDto errorDelivery(@RequestBody String orderId) {
         return service.errorDelivery(orderId);
     }
 
@@ -55,17 +58,17 @@ public class OrderController {
     }
 
     @PostMapping(path = "/calculate/total")
-    public OrderDto calculate (@RequestBody String orderId) {
+    public OrderDto calculate(@RequestBody String orderId) {
         return service.calculate(orderId);
     }
 
     @PostMapping(path = "/calculate/delivery")
-    public OrderDto calculateDelivery (@RequestBody String orderId) {
+    public OrderDto calculateDelivery(@RequestBody String orderId) {
         return service.calculateDelivery(orderId);
     }
 
     @PostMapping(path = "/assembly")
-    public OrderDto assemblyOrder (@RequestBody String orderId) {
+    public OrderDto assemblyOrder(@RequestBody String orderId) {
         return service.assemblyOrder(orderId);
     }
 

@@ -8,15 +8,15 @@ import ru.yandex.practicum.dto.order.OrderDto;
 @RequestMapping(path = "api/v1/order")
 public interface FeignOrderClient {
     @GetMapping
-    OrderDto getOrderByUsername (@RequestParam String username);
+    OrderDto getOrderByUsername(@RequestParam String username);
 
     @PostMapping(path = "/payment")
-    OrderDto paymentOrder (@RequestBody String orderId);
+    OrderDto paymentOrder(@RequestBody String orderId);
 
     @PostMapping(path = "/payment/failed")
     OrderDto errorPaymentOrder(@RequestBody String orderId);
 
     @PostMapping(path = "/delivery")
-    OrderDto deliveryOrder (@RequestBody String orderId);
+    OrderDto deliveryOrder(@RequestBody String orderId);
 
 }

@@ -1,13 +1,13 @@
 package ru.yandex.practicum.mapper.delivery;
 
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.dto.delivery.DeliveryDto;
 import ru.yandex.practicum.mapper.address.AddressMapper;
 import ru.yandex.practicum.model.Delivery;
+
 @Component
-@RequiredArgsConstructor
-public class DeliveryMapperImpl implements DeliveryMapper{
+public class DeliveryMapperImpl implements DeliveryMapper {
 
     @Override
     public DeliveryDto toDeliveryDto(Delivery delivery) {

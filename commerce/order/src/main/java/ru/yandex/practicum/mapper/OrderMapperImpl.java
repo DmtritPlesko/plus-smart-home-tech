@@ -3,8 +3,9 @@ package ru.yandex.practicum.mapper;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.dto.order.OrderDto;
 import ru.yandex.practicum.model.Order;
+
 @Component
-public class OrderMapperImpl implements OrderMapper{
+public class OrderMapperImpl implements OrderMapper {
     @Override
     public OrderDto toOrderDto(Order order) {
         return OrderDto.builder()

@@ -12,3 +12,11 @@ CREATE TABLE IF NOT EXISTS orders (
     delivery_price double,
     product_price double
 );
+
+create TABLE IF NOT EXISTS products_orders(
+order_id varchar(128) ,
+product_id varchar(128) NOT NULL,
+quantity INTEGER NOT NULL,
+CONSTRAINT products_orders_pk PRIMARY KEY (order_id, product_id),
+CONSTRAINT fk_order_id FOREIGN KEY (order_id) REFERENCES orders(id) ON delete CASCADE
+);

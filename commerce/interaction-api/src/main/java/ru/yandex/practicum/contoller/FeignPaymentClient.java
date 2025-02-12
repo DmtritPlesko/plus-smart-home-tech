@@ -14,10 +14,10 @@ public interface FeignPaymentClient {
     PaymentDto paymentOrder(@RequestBody OrderDto orderDto);
 
     @PostMapping(path = "/totalCost")
-    Double totalCost (@RequestBody OrderDto orderDto);
+    Double totalCost(@RequestBody OrderDto orderDto);
 
     @PostMapping(path = "/refund")
-    void refund (@RequestBody String paymentId);
+    void refund(@RequestBody String paymentId);
 
     @PostMapping(path = "/productCost")
     Double productCost(@RequestBody OrderDto orderDto);

@@ -1,8 +1,10 @@
 package ru.yandex.practicum.mapper;
 
+import org.springframework.stereotype.Component;
 import ru.yandex.practicum.model.Product;
 import ru.yandex.practicum.request.NewProductInWarehouseRequest;
 
+@Component
 public class WarehouseMapperImpl implements WarehouseMapper {
     @Override
     public Product toProduct(NewProductInWarehouseRequest request) {

@@ -1,6 +1,8 @@
 package ru.yandex.practicum.service;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.contoller.FeignPaymentClient;
 import ru.yandex.practicum.contoller.FeignShoppingCartClient;
@@ -11,13 +13,16 @@ import ru.yandex.practicum.exception.NotAuthorizedUserException;
 import ru.yandex.practicum.exception.order.NoOrderFoundException;
 import ru.yandex.practicum.mapper.OrderMapper;
 import ru.yandex.practicum.model.Order;
+import ru.yandex.practicum.model.ProductsOrder;
 import ru.yandex.practicum.repository.OrderRepository;
 import ru.yandex.practicum.request.CreateNewOrderRequest;
 import ru.yandex.practicum.request.ProductReturnRequest;
+
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderServiceImpl implements OrderService {
 
     final OrderMapper mapper;
@@ -28,8 +33,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto getOrderByUsername(String username) {
 
-        if(username.isEmpty()) {
-         throw new NotAuthorizedUserException("Имя пользователя не должно быть пустым");
+        if (username.isEmpty()) {
+            throw new NotAuthorizedUserException("Имя пользователя не должно быть пустым");
         }
 
         OrderDto orderDto = mapper.toOrderDto(repository.findOrderByUsername(username));
@@ -45,17 +50,27 @@ public class OrderServiceImpl implements OrderService {
 
         order.setShoppingCartId(request.getCartDto().getShoppingCartId());
         order.setDeliveryId(request.getAddressDto().getAddressId());
+        order.setUsername(request.getUsername());
+        order.setState(State.NEW);
 
-        repository.save(order);
 
-        return mapper.toOrderDto(order);
+        for (String key : request.getCartDto().getProducts().keySet()) {
+            ProductsOrder productsOrder = new ProductsOrder();
+
+            productsOrder.setOrder(order);
+            productsOrder.setOrderId(key);
+            productsOrder.setQuantity(request.getCartDto().getProducts().get(key));
+            order.getProducts().add(productsOrder);
+        }
+
+        return mapper.toOrderDto(repository.save(order));
     }
 
     @Override
     public OrderDto returnOrder(ProductReturnRequest request) {
         check(request.getOrderId());
 
-        repository.updateOrderState(request.getOrderId(),State.CANCELED.toString());
+        repository.updateOrderState(request.getOrderId(), State.CANCELED.toString());
 
         return mapper.toOrderDto(repository.findById(request.getOrderId()).get());
     }
@@ -73,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto errorPayment(String orderId) {
         check(orderId);
 
-        repository.updateOrderState(orderId,State.PAYMENT_FAILED.toString());
+        repository.updateOrderState(orderId, State.PAYMENT_FAILED.toString());
 
         return mapper.toOrderDto(repository.findById(orderId).get());
     }
@@ -82,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto deliveryOrder(String orderId) {
         check(orderId);
 
-        repository.updateOrderState(orderId,State.ON_DELIVERY.toString());
+        repository.updateOrderState(orderId, State.ON_DELIVERY.toString());
 
         return mapper.toOrderDto(repository.findById(orderId).get());
     }
@@ -91,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto errorDelivery(String orderId) {
         check(orderId);
 
-        repository.updateOrderState(orderId,State.DELIVERY_FAILED.toString());
+        repository.updateOrderState(orderId, State.DELIVERY_FAILED.toString());
 
         return mapper.toOrderDto(repository.findById(orderId).get());
     }
@@ -100,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto completedOrder(String orderId) {
         check(orderId);
 
-        repository.updateOrderState(orderId,State.COMPLETED.toString());
+        repository.updateOrderState(orderId, State.COMPLETED.toString());
 
         return mapper.toOrderDto(repository.findById(orderId).get());
     }
@@ -110,7 +125,7 @@ public class OrderServiceImpl implements OrderService {
 
         Optional<Order> orderOptional = repository.findById(orderId);
 
-        if(orderOptional.isEmpty()) {
+        if (orderOptional.isEmpty()) {
             throw new NoOrderFoundException("Не найден заказ");
         }
 
@@ -129,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
 
         Optional<Order> orderOptional = repository.findById(orderId);
 
-        if(orderOptional.isEmpty()) {
+        if (orderOptional.isEmpty()) {
             throw new NoOrderFoundException("Не найден заказ");
         }
 
@@ -148,7 +163,7 @@ public class OrderServiceImpl implements OrderService {
 
         check(orderId);
 
-        repository.updateOrderState(orderId,State.ASSEMBLED.toString());
+        repository.updateOrderState(orderId, State.ASSEMBLED.toString());
 
         return mapper.toOrderDto(repository.findById(orderId).get());
     }
@@ -158,13 +173,13 @@ public class OrderServiceImpl implements OrderService {
 
         check(orderId);
 
-        repository.updateOrderState(orderId,State.ASSEMBLY_FAILED.toString());
+        repository.updateOrderState(orderId, State.ASSEMBLY_FAILED.toString());
 
         return mapper.toOrderDto(repository.findById(orderId).get());
     }
 
-    private void check (String orderId) {
-        if(repository.findById(orderId).isEmpty()) {
+    private void check(String orderId) {
+        if (repository.findById(orderId).isEmpty()) {
             throw new NoOrderFoundException("Не найден заказ");
         }
     }

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.contoller.FeignWarehouseClient;
 import ru.yandex.practicum.dto.shopping.BookedProductsDto;
 import ru.yandex.practicum.dto.shopping.ShoppingCartDto;
-import ru.yandex.practicum.exception.shopping.NoProductsInShoppingCartException;
 import ru.yandex.practicum.exception.NotAuthorizedUserException;
+import ru.yandex.practicum.exception.shopping.NoProductsInShoppingCartException;
 import ru.yandex.practicum.mapper.ShoppingCartMapper;
 import ru.yandex.practicum.model.ShoppingCart;
 import ru.yandex.practicum.repository.CartRepository;
@@ -44,7 +44,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .filter(elem -> products.keySet().contains(elem.getProductId()))
                 .peek(elem -> elem.setQuantity(products.get(elem.getProductId())));
 
-        return mapper.toShoppingCartDto(shoppingCart);
+        return mapper.toShoppingCartDto(cartRepository.save(shoppingCart));
     }
 
     @Override
@@ -70,11 +70,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
 
         shoppingCart.getPositions().stream()
-                .filter(elem -> products.keySet().contains(elem.getProductId()))
-                .peek(elem -> elem.setQuantity(products.get(elem.getProductId())));
+                .filter(elem -> !products.containsKey(elem.getProductId()));
 
 
-        return mapper.toShoppingCartDto(shoppingCart);
+        return mapper.toShoppingCartDto(cartRepository.save(shoppingCart));
     }
 
     @Override
@@ -94,7 +93,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
                 });
 
-        return mapper.toShoppingCartDto(shoppingCart);
+        return mapper.toShoppingCartDto(cartRepository.save(shoppingCart));
     }
 
     @Override

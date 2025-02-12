@@ -25,7 +25,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public void deliveryCompile(String deliveryId) {
-        if(repository.findById(deliveryId).isEmpty()) {
+        if (repository.findById(deliveryId).isEmpty()) {
             throw new NoDeliveryFoundException("Не найдена доставка");
         }
         repository.updateDeliveryState(deliveryId, DeliveryState.DELIVERED.toString());
@@ -33,7 +33,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public void picked(String deliveryId) {
-        if(repository.findById(deliveryId).isEmpty()) {
+        if (repository.findById(deliveryId).isEmpty()) {
             throw new NoDeliveryFoundException("Не найдена доставка для выдачи");
         }
 
@@ -42,11 +42,11 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public void failed(String deliveryId) {
-        if(repository.findById(deliveryId).isEmpty()) {
+        if (repository.findById(deliveryId).isEmpty()) {
             throw new NoDeliveryFoundException("Не найдена доставка для сбоя");
         }
 
-        repository.updateDeliveryState(deliveryId,DeliveryState.FAILED.toString());
+        repository.updateDeliveryState(deliveryId, DeliveryState.FAILED.toString());
     }
 
     @Override
@@ -54,19 +54,19 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         double baseCost = 5.0;
 
-        if(client.getAddress().equals("ADDRESS_1")) {
+        if (client.getAddress().equals("ADDRESS_1")) {
             baseCost *= 1;
         } else {
             baseCost *= 2;
         }
 
-        if(orderDto.isFragile()) {
+        if (orderDto.isFragile()) {
             baseCost *= 0.2;
         }
 
-        baseCost += orderDto.getDeliveryWeight()*0.3;
+        baseCost += orderDto.getDeliveryWeight() * 0.3;
 
-        baseCost += orderDto.getDeliveryVolume()*0.2;
+        baseCost += orderDto.getDeliveryVolume() * 0.2;
 
         return baseCost;
     }

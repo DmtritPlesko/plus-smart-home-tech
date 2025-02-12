@@ -5,7 +5,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import ru.yandex.practicum.enums.State;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -54,5 +55,6 @@ public class Order {
     @Column(name = "product_price")
     Double productPrice;
 
-    LinkedHashMap<String,Long> products;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    List<ProductsOrder> products = new ArrayList<>();
 }
